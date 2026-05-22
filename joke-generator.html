@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Joke Generator — API Project</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#0d1117;
+--surface:#161b22;
+--surface2:#1f2630;
+--border:#30363d;
+--teal:#00c9a7;
+--violet:#a78bfa;
+--amber:#f5a623;
+--rose:#ff6b8a;
+--sky:#38bdf8;
+--text:#e6edf3;
+--muted:#8b949e;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:'Outfit',sans-serif;
+background:var(--bg);
+color:var(--text);
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+.container{
+max-width:600px;
+width:100%;
+}
+.header{
+text-align:center;
+margin-bottom:40px;
+}
+.header h1{
+font-family:'Fraunces',serif;
+font-size:clamp(32px,6vw,52px);
+color:var(--teal);
+margin-bottom:10px;
+}
+.header p{
+color:var(--muted);
+font-size:16px;
+}
+.joke-card{
+background:var(--surface);
+border:1px solid var(--border);
+border-radius:16px;
+padding:32px;
+margin-bottom:24px;
+min-height:180px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+.joke-card.loading{
+opacity:.6;
+}
+.joke-content{
+font-size:22px;
+line-height:1.6;
+color:var(--text);
+margin-bottom:16px;
+min-height:100px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+}
+.joke-content span{
+color:var(--muted);
+font-size:14px;
+}
+.joke-type{
+font-size:12px;
+color:var(--teal);
+letter-spacing:.1em;
+text-transform:uppercase;
+margin-bottom:12px;
+}
+.button-group{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+margin-top:24px;
+}
+.btn{
+flex:1;
+padding:14px 20px;
+border:none;
+border-radius:10px;
+font-weight:700;
+cursor:pointer;
+transition:.2s;
+font-size:15px;
+min-width:150px;
+}
+.btn-primary{
+background:var(--teal);
+color:#08110f;
+box-shadow:0 0 20px rgba(0,201,167,.3);
+}
+.btn-primary:hover{
+transform:translateY(-2px);
+box-shadow:0 0 30px rgba(0,201,167,.5);
+}
+.btn-secondary{
+background:var(--surface2);
+border:1px solid var(--border);
+color:var(--text);
+}
+.btn-secondary:hover{
+border-color:var(--teal);
+color:var(--teal);
+}
+.btn:disabled{
+opacity:.5;
+cursor:not-allowed;
+}
+.counter{
+text-align:center;
+margin-top:20px;
+font-size:14px;
+color:var(--muted);
+}
+.counter span{
+color:var(--teal);
+font-weight:700;
+}
+.error{
+background:rgba(255,107,138,.1);
+border:1px solid var(--rose);
+color:var(--rose);
+padding:14px 18px;
+border-radius:10px;
+margin-top:16px;
+text-align:center;
+font-size:14px;
+}
+.success{
+background:rgba(74,222,128,.1);
+border:1px solid #4ade80;
+color:#4ade80;
+padding:12px 16px;
+border-radius:8px;
+margin-top:12px;
+text-align:center;
+font-size:13px;
+}
+footer{
+text-align:center;
+margin-top:40px;
+font-size:12px;
+color:var(--muted);
+}
+a{
+color:var(--teal);
+text-decoration:none;
+}
+a:hover{
+text-decoration:underline;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>😂 Joke Generator</h1>
+<p>Get random jokes powered by JokeAPI</p>
+</div>
+
+<div class="joke-card" id="jokeCard">
+<div class="joke-type" id="jokeType">Click below to get started</div>
+<div class="joke-content" id="jokeContent">
+<span>Ready for a laugh?</span>
+</div>
+</div>
+
+<div class="button-group">
+<button class="btn btn-primary" onclick="getJoke()">Get Another Joke</button>
+<button class="btn btn-secondary" onclick="copyJoke()">📋 Copy Joke</button>
+</div>
+
+<div id="notification"></div>
+<div class="counter">Jokes loaded: <span id="counter">0</span></div>
+<footer>
+<p>Powered by <a href="https://jokeapi.dev" target="_blank">JokeAPI</a> • Built with vanilla JavaScript</p>
+</footer>
+</div>
+
+<script>
+let currentJoke = '';
+let jokeCount = 0;
+
+const API_URL = 'https://v2.jokeapi.dev/joke/Any?format=json';
+
+function showNotification(message, type = 'success') {
+  const notification = document.getElementById('notification');
+  notification.innerHTML = `<div class="${type}"><strong>${type === 'success' ? '✓' : '✗'}</strong> ${message}</div>`;
+  setTimeout(() => {
+    notification.innerHTML = '';
+  }, 3000);
+}
+
+async function getJoke() {
+  const jokeCard = document.getElementById('jokeCard');
+  const button = event.target;
+  
+  button.disabled = true;
+  jokeCard.classList.add('loading');
+  document.getElementById('jokeContent').innerHTML = '<span>Loading...</span>';
+  
+  try {
+    const response = await fetch(API_URL);
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch joke');
+    }
+    
+    const data = await response.json();
+    
+    // Check if it's a two-part joke or single joke
+    if (data.type === 'twopart') {
+      currentJoke = `${data.setup}\n\n${data.delivery}`;
+      document.getElementById('jokeType').innerHTML = '📝 Two-Part Joke';
+    } else {
+      currentJoke = data.joke;
+      document.getElementById('jokeType').innerHTML = '📝 Single Joke';
+    }
+    
+    document.getElementById('jokeContent').innerHTML = `<div style="white-space: pre-wrap;">${escapeHtml(currentJoke)}</div>`;
+    jokeCount++;
+    document.getElementById('counter').innerText = jokeCount;
+    jokeCard.classList.remove('loading');
+    
+  } catch (error) {
+    console.error('Error:', error);
+    document.getElementById('jokeContent').innerHTML = '<span>😅 Oops! Failed to load joke. Try again!</span>';
+    showNotification('Could not load joke. Please try again.', 'error');
+    jokeCard.classList.remove('loading');
+  } finally {
+    button.disabled = false;
+  }
+}
+
+function copyJoke() {
+  if (!currentJoke) {
+    showNotification('No joke to copy. Get a joke first!', 'error');
+    return;
+  }
+  
+  navigator.clipboard.writeText(currentJoke).then(() => {
+    showNotification('Joke copied to clipboard! 📋', 'success');
+  }).catch(() => {
+    showNotification('Failed to copy. Try manually.', 'error');
+  });
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+</script>
+</body>
+</html>
