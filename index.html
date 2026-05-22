@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grammar Mastery Hub — Mr. Sameh Salah</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#0d1117;
+--surface:#161b22;
+--surface2:#1f2630;
+--border:#30363d;
+--teal:#00c9a7;
+--violet:#a78bfa;
+--amber:#f5a623;
+--rose:#ff6b8a;
+--sky:#38bdf8;
+--text:#e6edf3;
+--muted:#8b949e;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:'Outfit',sans-serif;
+background:var(--bg);
+color:var(--text);
+overflow-x:hidden;
+}
+html{scroll-behavior:smooth}
+.hero{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:40px 24px;
+position:relative;
+overflow:hidden;
+}
+.hero::before{
+content:'';
+position:absolute;
+inset:0;
+background-image:linear-gradient(rgba(0,201,167,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,201,167,.06) 1px,transparent 1px);
+background-size:60px 60px;
+}
+.orb{
+position:absolute;
+border-radius:50%;
+filter:blur(80px);
+}
+.orb1{width:420px;height:420px;background:rgba(0,201,167,.09);top:-120px;left:-120px}
+.orb2{width:350px;height:350px;background:rgba(167,139,250,.08);right:-80px;bottom:-80px}
+.hero-content{position:relative;z-index:2;max-width:900px;text-align:center}
+.teacher-card{
+display:inline-flex;
+align-items:center;
+gap:18px;
+padding:12px 26px 12px 12px;
+border-radius:90px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(0,201,167,.25);
+backdrop-filter:blur(10px);
+margin-bottom:40px;
+}
+.teacher-photo{
+width:74px;
+height:74px;
+border-radius:50%;
+object-fit:cover;
+object-position:center top;
+border:2px solid var(--teal);
+}
+.teacher-name{font-family:'Fraunces',serif;font-size:22px;font-weight:700}
+.teacher-role{font-size:12px;color:var(--teal);letter-spacing:.15em;text-transform:uppercase;margin-top:4px}
+.hero-title{
+font-family:'Fraunces',serif;
+font-size:clamp(42px,8vw,88px);
+line-height:1;
+font-weight:900;
+letter-spacing:-.04em;
+}
+.hero-title span{color:var(--teal);font-style:italic}
+.hero-sub{
+font-family:'Crimson Pro',serif;
+font-size:22px;
+line-height:1.7;
+max-width:700px;
+margin:24px auto 0;
+color:var(--muted)
+}
+.cta-row{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:40px}
+.btn{
+padding:14px 30px;
+border-radius:8px;
+text-decoration:none;
+font-weight:700;
+transition:.2s;
+}
+.btn-primary{background:var(--teal);color:#08110f;box-shadow:0 0 25px rgba(0,201,167,.3)}
+.btn-secondary{border:1px solid var(--border);color:var(--text)}
+.btn:hover{transform:translateY(-2px)}
+nav{
+position:sticky;
+top:0;
+z-index:100;
+background:rgba(13,17,23,.92);
+backdrop-filter:blur(12px);
+border-bottom:1px solid var(--border)
+}
+.nav-inner{
+max-width:1200px;
+margin:auto;
+display:flex;
+gap:18px;
+padding:16px 24px;
+align-items:center;
+overflow:auto;
+}
+.nav-logo{color:var(--teal);font-weight:700;white-space:nowrap}
+.nav-link{color:var(--muted);text-decoration:none;font-size:13px;white-space:nowrap}
+.nav-link:hover{color:var(--teal)}
+.section{max-width:1200px;margin:auto;padding:80px 24px}
+.sec-label{font-size:12px;letter-spacing:.2em;color:var(--teal);text-transform:uppercase;margin-bottom:12px}
+.sec-title{font-family:'Fraunces',serif;font-size:clamp(30px,5vw,52px);margin-bottom:18px}
+.sec-body{font-family:'Crimson Pro',serif;font-size:20px;line-height:1.7;color:var(--muted);max-width:760px}
+.grammar-grid,.text-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
+margin-top:42px;
+}
+.card{
+background:var(--surface);
+border:1px solid var(--border);
+border-radius:16px;
+padding:24px;
+transition:.25s;
+}
+.card:hover{transform:translateY(-4px);border-color:rgba(0,201,167,.4)}
+.card h3{font-family:'Fraunces',serif;margin-bottom:12px;font-size:22px}
+.card p{font-family:'Crimson Pro',serif;color:var(--muted);line-height:1.7;font-size:17px}
+.topic-tag{
+display:inline-block;
+padding:6px 12px;
+border-radius:20px;
+font-size:11px;
+font-weight:700;
+letter-spacing:.08em;
+margin-bottom:14px;
+}
+.teal{background:rgba(0,201,167,.12);color:var(--teal)}
+.violet{background:rgba(167,139,250,.12);color:var(--violet)}
+.amber{background:rgba(245,166,35,.12);color:var(--amber)}
+.rose{background:rgba(255,107,138,.12);color:var(--rose)}
+.sky{background:rgba(56,189,248,.12);color:var(--sky)}
+.text-card{cursor:pointer}
+.text-card p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.panel{
+position:fixed;
+inset:0;
+background:var(--bg);
+z-index:500;
+display:none;
+overflow:auto;
+}
+.panel.open{display:block}
+.panel-header{
+position:sticky;
+top:0;
+background:rgba(13,17,23,.95);
+padding:18px 24px;
+border-bottom:1px solid var(--border);
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+.back-btn{
+background:none;
+border:1px solid rgba(0,201,167,.3);
+color:var(--teal);
+padding:10px 18px;
+border-radius:8px;
+cursor:pointer;
+}
+.panel-layout{
+display:grid;
+grid-template-columns:1fr 1fr;
+min-height:calc(100vh - 70px)
+}
+@media(max-width:900px){
+.panel-layout{grid-template-columns:1fr}
+.teacher-card{flex-direction:column;border-radius:18px;padding:22px}
+}
+.text-pane,.quiz-pane{padding:38px}
+.text-pane{border-right:1px solid var(--border)}
+.story-title{font-family:'Fraunces',serif;font-size:38px;margin-bottom:20px}
+.story-text{font-family:'Crimson Pro',serif;font-size:21px;line-height:2;color:#d2dae2}
+.gap{
+background:rgba(0,201,167,.12);
+padding:3px 8px;
+border-radius:6px;
+font-weight:700;
+color:var(--teal)
+}
+.question-block{
+background:var(--surface);
+border:1px solid var(--border);
+border-radius:14px;
+padding:22px;
+margin-bottom:18px;
+}
+.question-block h4{margin-bottom:14px;font-size:18px}
+.option{
+display:block;
+padding:12px 14px;
+border:1px solid var(--border);
+border-radius:10px;
+margin-bottom:10px;
+cursor:pointer;
+transition:.2s;
+}
+.option:hover{border-color:var(--teal);background:rgba(0,201,167,.08)}
+.option.correct{border-color:#4ade80;background:rgba(74,222,128,.1);color:#4ade80}
+.option.wrong{border-color:var(--rose);background:rgba(255,107,138,.1);color:var(--rose)}
+.results{
+margin-top:26px;
+background:var(--surface2);
+padding:24px;
+border-radius:16px;
+display:none;
+}
+.score{
+font-size:60px;
+font-family:'Fraunces',serif;
+color:var(--teal);
+text-align:center;
+}
+.submit-btn{
+width:100%;
+padding:16px;
+border:none;
+border-radius:12px;
+background:var(--teal);
+font-weight:800;
+cursor:pointer;
+margin-top:10px;
+}
+footer{
+padding:50px 24px;
+text-align:center;
+border-top:1px solid var(--border)
+}
+</style>
+</head>
+<body>
+<section class="hero" id="home">
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="hero-content">
+<div class="teacher-card">
+<img src="https://i.ibb.co/hRKmgW66/Whats-App-Image-2026-05-15-at-3-27-50-PM-1.jpg" class="teacher-photo" alt="Mr. Sameh Salah">
+<div>
+<div class="teacher-name">Mr. Sameh Salah</div>
+<div class="teacher-role">English Language Arts · Grade 11 · UAE</div>
+</div>
+</div>
+<h1 class="hero-title">Grammar <span>Mastery</span><br>Interactive Hub</h1>
+<p class="hero-sub">Practice advanced Grade 11 grammar through interactive narrative cloze texts, instant feedback, and engaging real-life situations.</p>
+<div class="cta-row">
+<a href="#topics" class="btn btn-primary">Explore Grammar Topics</a>
+<a href="#stories" class="btn btn-secondary">Start Interactive Practice</a>
+</div>
+</div>
+</section>
+<nav>
+<div class="nav-inner">
+<div class="nav-logo">Grammar Hub</div>
+<a class="nav-link" href="#home">Home</a>
+<a class="nav-link" href="#topics">Grammar Topics</a>
+<a class="nav-link" href="#stories">Interactive Stories</a>
+</div>
+</nav>
+<section class="section" id="topics">
+<div class="sec-label">Grammar Topics</div>
+<h2 class="sec-title">Grade 11 Grammar Focus</h2>
+<p class="sec-body">Each grammar topic is explained in a student-friendly way and reinforced through interactive narrative cloze activities with multiple-choice gaps.</p>
+<div class="grammar-grid">
+<div class="card"><span class="topic-tag teal">Conditionals</span><h3>Third Conditional</h3><p>Used to imagine unreal past situations and their results. Structure: If + past perfect, would have + past participle.</p></div>
+<div class="card"><span class="topic-tag violet">Vocabulary</span><h3>Phrasal Verbs</h3><p>Non-separable phrasal verbs stay together. Example: "look after the children" — not "look the children after."</p></div>
+<div class="card"><span class="topic-tag amber">Communication</span><h3>Reported Speech</h3><p>Used to report what someone said without using their exact words. Tenses usually shift back.</p></div>
+<div class="card"><span class="topic-tag rose">Passive Voice</span><h3>Past Perfect Passive</h3><p>Structure: had been + past participle. Focuses on actions completed before another past action.</p></div>
+<div class="card"><span class="topic-tag sky">Narration</span><h3>Past Perfect Continuous</h3><p>Shows an action that continued over a period of time before another event in the past.</p></div>
+<div class="card"><span class="topic-tag teal">Cohesion</span><h3>Adverbial Linkers</h3><p>Words such as however, therefore, meanwhile, and consequently connect ideas smoothly.</p></div>
+<div class="card"><span class="topic-tag amber">Past Habits</span><h3>Used To</h3><p>Describes repeated actions or states in the past that no longer happen now.</p></div>
+</div>
+</section>
+<section class="section" id="stories">
+<div class="sec-label">Interactive Practice</div>
+<h2 class="sec-title">Narrative Cloze Stories</h2>
+<p class="sec-body">Open a story, read the narrative, and complete the five grammar gaps by choosing the correct answer.</p>
+<div class="text-grid" id="storyGrid"></div>
+</section>
+<div class="panel" id="panel">
+<div class="panel-header">
+<button class="back-btn" onclick="closePanel()">← Back</button>
+<h3 id="panelTitle">Story</h3>
+</div>
+<div class="panel-layout">
+<div class="text-pane">
+<h2 class="story-title" id="storyTitle"></h2>
+<div class="story-text" id="storyText"></div>
+</div>
+<div class="quiz-pane">
+<div id="quizArea"></div>
+<button class="submit-btn" onclick="submitQuiz()">Check Answers</button>
+<div class="results" id="results">
+<div class="score" id="score">0%</div>
+<p style="text-align:center;margin-top:10px;color:var(--muted)">Great work! Review your answers and try another story.</p>
+</div>
+</div>
+</div>
+</div>
+<footer>
+<img src="https://i.ibb.co/hRKmgW66/Whats-App-Image-2026-05-15-at-3-27-50-PM-1.jpg" style="width:60px;height:60px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid var(--teal)">
+<h3 style="margin-top:14px;font-family:'Fraunces',serif">Mr. Sameh Salah</h3>
+<p style="margin-top:8px;color:var(--muted)">Grammar Mastery Hub · Grade 11 · UAE</p>
+</footer>
+<script>
+const stories=[
+{
+ title:'The Lost Championship',
+ grammar:'Third Conditional · Reported Speech · Adverbial Linkers',
+ text:`Last summer, our school football team almost won the national championship. Everyone believed we would succeed because the players <span class='gap'>[1]</span> for months before the final match. Unfortunately, our captain became injured the night before the game. The coach later explained that if the captain <span class='gap'>[2]</span> injured, the team would have performed much better. During the match, the referee made a controversial decision; <span class='gap'>[3]</span>, the players continued fighting until the final minute. After the match, the coach told reporters that the team <span class='gap'>[4]</span> their best despite the difficult circumstances. Many students said they <span class='gap'>[5]</span> football every afternoon when they were younger, which helped them become skilled athletes today. Although the team lost the trophy, the experience taught everyone the value of teamwork, discipline, and determination during difficult moments.` ,
+ questions:[
+ {q:'1. Choose the correct form.',options:['had been training','were training','have trained'],a:0},
+ {q:'2. Choose the correct form.',options:['had not been','was not','has not been'],a:0},
+ {q:'3. Choose the correct linker.',options:['However','Consequently','Meanwhile'],a:0},
+ {q:'4. Choose the correct reported speech form.',options:['had given','gave','has given'],a:0},
+ {q:'5. Choose the correct past habit form.',options:['used to play','use to play','are used to playing'],a:0}
+ ]
+},
+{
+ title:'The Science Museum Mystery',
+ grammar:'Passive Voice · Phrasal Verbs · Past Perfect Passive',
+ text:`When our class visited the new science museum, we discovered that several valuable inventions <span class='gap'>[1]</span> before the exhibition officially opened. The guide explained that security cameras had recorded everything carefully. One student wanted to know who the thieves were, but the guide told us the investigation was still continuing. Meanwhile, the museum workers continued to <span class='gap'>[2]</span> the younger visitors and answer their questions politely. Before the police arrived, the damaged robots <span class='gap'>[3]</span> by the museum engineers. The principal later said that the museum staff had acted quickly; <span class='gap'>[4]</span>, the situation did not become more serious. At the end of the day, the guide reported that the missing devices <span class='gap'>[5]</span> in a nearby storage room by one of the workers. Everyone felt relieved after hearing the good news and continued enjoying the exhibition peacefully.` ,
+ questions:[
+ {q:'1. Choose the correct passive form.',options:['had been stolen','had stolen','were stealing'],a:0},
+ {q:'2. Choose the correct non-separable phrasal verb.',options:['look after','look the children after','look after them carefully'],a:0},
+ {q:'3. Choose the correct passive form.',options:['had already been repaired','had already repaired','were already repairing'],a:0},
+ {q:'4. Choose the correct linker.',options:['Therefore','However','Similarly'],a:0},
+ {q:'5. Choose the correct reported statement.',options:['had been found','were found','have found'],a:0}
+ ]
+},
+{
+ title:'A Journey Through the Desert',
+ grammar:'Past Perfect Continuous · Used To · Third Conditional',
+ text:`My grandfather often tells us stories about travelling across the desert many years ago. He explained that people <span class='gap'>[1]</span> ride camels for long distances because cars were uncommon at that time. During one dangerous journey, his group <span class='gap'>[2]</span> for nearly ten hours before they finally found water. Suddenly, a heavy sandstorm appeared and blocked their path completely. My grandfather later said that if they <span class='gap'>[3]</span> a map with them, they would have become lost in the desert. Fortunately, one experienced traveller managed to <span class='gap'>[4]</span> the younger members of the group until the storm ended. After they returned safely home, the leader explained that several important supplies <span class='gap'>[5]</span> during the difficult journey. Listening to these stories always reminds me how challenging life used to be in the past.` ,
+ questions:[
+ {q:'1. Choose the correct form.',options:['used to','are used to','use to'],a:0},
+ {q:'2. Choose the correct tense.',options:['had been travelling','were travelling','have travelled'],a:0},
+ {q:'3. Choose the correct conditional.',options:['had not carried','did not carry','have not carried'],a:0},
+ {q:'4. Choose the correct phrasal verb.',options:['look after','look after safely','look the group after'],a:0},
+ {q:'5. Choose the correct passive form.',options:['had been damaged','had damaged','were damaging'],a:0}
+ ]
+}
+];
+const grid=document.getElementById('storyGrid');
+const panel=document.getElementById('panel');
+let current=0;
+let answers={};
+stories.forEach((s,i)=>{
+const card=document.createElement('div');
+card.className='card text-card';
+card.innerHTML=`<span class='topic-tag teal'>${s.grammar}</span><h3>${s.title}</h3><p>${s.text.replace(/<[^>]+>/g,'').slice(0,180)}...</p>`;
+card.onclick=()=>openStory(i);
+grid.appendChild(card);
+});
+function openStory(i){
+current=i;
+answers={};
+const story=stories[i];
+panel.classList.add('open');
+document.getElementById('panelTitle').innerText=story.title;
+document.getElementById('storyTitle').innerText=story.title;
+document.getElementById('storyText').innerHTML=story.text;
+const quiz=document.getElementById('quizArea');
+quiz.innerHTML='';
+story.questions.forEach((q,qi)=>{
+const block=document.createElement('div');
+block.className='question-block';
+block.innerHTML=`<h4>${q.q}</h4>`;
+q.options.forEach((op,oi)=>{
+const div=document.createElement('div');
+div.className='option';
+div.innerText=op;
+div.onclick=()=>{
+answers[qi]=oi;
+[...div.parentElement.querySelectorAll('.option')].forEach(o=>o.style.borderColor='var(--border)');
+div.style.borderColor='var(--teal)';
+};
+block.appendChild(div);
+});
+quiz.appendChild(block);
+});
+document.getElementById('results').style.display='none';
+window.scrollTo(0,0);
+}
+function closePanel(){panel.classList.remove('open')}
+function submitQuiz(){
+const story=stories[current];
+let correct=0;
+const blocks=[...document.querySelectorAll('.question-block')];
+story.questions.forEach((q,qi)=>{
+const opts=blocks[qi].querySelectorAll('.option');
+opts.forEach((o,oi)=>{
+o.classList.remove('correct','wrong');
+if(oi===q.a)o.classList.add('correct');
+if(answers[qi]===oi && oi!==q.a)o.classList.add('wrong');
+});
+if(answers[qi]===q.a)correct++;
+});
+const percent=Math.round(correct/story.questions.length*100);
+document.getElementById('results').style.display='block';
+document.getElementById('score').innerText=percent+'%';
+}
+</script>
+</body>
+</html>
